@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+	 	http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.2.xsd">
+
+	<!-- 只需要扫描包中的 Controller 注解 -->
+	<context:component-scan
+		base-package="com.weng.mmall.controller" />
+
+	<!-- 启动 mvc 注解驱动 -->
+	<!-- 配置注解的适配器和映射器，同时还注入了很多其他的bean -->
+	<!-- 处理器适配器会去调用conversion-service -->
+	<mvc:annotation-driven
+		conversion-service="conversionService" />
+
+	<bean id="conversionService"
+		class="org.springframework.context.support.ConversionServiceFactoryBean">
+		<property name="converters">
+			<list>
+				<bean class="com.weng.mmall.common.StringToUserConvert" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- 静态资源处理 -->
+	<mvc:default-servlet-handler />
+
+	<!-- 请求响应配置 -->
+	<mvc:annotation-driven>
+		<mvc:message-converters>
+			<bean
+				class="org.springframework.http.converter.StringHttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+						<value>text/plain;charset=UTF-8</value>
+						<value>text/html;charset=UTF-8</value>
+					</list>
+				</property>
+			</bean>
+			<bean
+				class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+						<value>application/json;charset=UTF-8</value>
+					</list>
+				</property>
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+
+	<!-- 配置视图解析器 -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views/"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+
+	<!-- 文件上传 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="10485760" /> <!-- 10m -->
+		<property name="maxInMemorySize" value="4096" />   <!-- 使用内存设定 -->
+		<property name="defaultEncoding" value="UTF-8"></property>
+	</bean>
+
+
+	<!-- 配置自定义的转换服务 <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean"> 
+		<property name="converters"> <set> 自定义日期类型转换器 <bean class="com.weng.ssm2.controller.converter.DateConverter"></bean> 
+		</set> </property> </bean> -->
+
+	<!-- 全局统一异常处理 <bean id="simpleMappingExceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver"> 
+		<property name="exceptionMappings"> <props> <prop key="com.weng.ssm2.exception.SSMUnauthorizedException">error</prop> 
+		<prop key="com.weng.ssm2.exception.CustomException">error2</prop> </props> 
+		</property> </bean> -->
+
+	<!-- 配置异常处理器 <bean class="com.weng.ssm2.exception.resolver.SSMExceptionResolver" 
+		/> -->
+
+
+	<!-- 参考:file -> springMVC之mvc:interceptors拦截器的用法 -->
+	<!-- 后台访问拦截器 <mvc:interceptors> <mvc:interceptor> <mvc:mapping path="/admin/**"/> 
+		<mvc:mapping path="/system/*"/> <mvc:exclude-mapping path="/system/login"/> 
+		<mvc:exclude-mapping path="/system/get_cpacha"/> <mvc:exclude-mapping path="/resources/**"/> 
+		<bean class="com.weng.ssm2.interceptor.admin.LoginInterceptor"></bean> </mvc:interceptor> 
+		</mvc:interceptors> -->
+
+</beans>
