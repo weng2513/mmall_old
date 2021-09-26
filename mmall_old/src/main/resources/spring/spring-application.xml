@@ -4,14 +4,24 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:tx="http://www.springframework.org/schema/tx"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
-  	 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
- 	 http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
- 	 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+  	 	http://www.springframework.org/schema/context 
+  	 	http://www.springframework.org/schema/context/spring-context-4.2.xsd
+ 	 	http://www.springframework.org/schema/aop 
+ 	 	http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+ 	 	http://www.springframework.org/schema/tx 
+ 	 	http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
 
 	<context:component-scan
 		base-package="com.weng.mmall.controller" />
 
+	<!-- 
+	  MessageSource用于解析消息，并支持消息的参数化和国际化。
+	  Spring 包含两个内置的MessageSource实现：
+		ResourceBundleMessageSource和ReloadableResourceBundleMessageSource。
+		后者能够重新加载消息定义，而无需重新启动虚拟机。
+	-->
 	<bean id="messageSource"
 		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
 		<property name="basenames">

@@ -2,7 +2,8 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+	http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.weng</groupId>
@@ -83,10 +84,26 @@
 			<version>1.6.11</version>
 		</dependency>
 
+		<!-- 
+		  Jackson fasterxml和codehaus的区别：
+			他们是Jackson的两大分支、也是两个版本的不同包名。Jackson从2.0开始改用新的包名fasterxml；
+			1.x版本的包名是codehaus。除了包名不同，他们的Maven artifact id也不同。
+			1.x版本现在只提供bug-fix，
+			而2.x版本还在不断开发和发布中。如果是新项目，建议直接用2x，即fasterxml jackson。
+	
+			Jackson可以轻松的将Java对象转换成json对象和xml文档，同样也可以将json、xml转换成Java对象。
+		-->
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-mapper-asl</artifactId>
 			<version>1.9.12</version>
+		</dependency>
+
+		<!--com.fasterxml.jackson.dataformat.avro.PackageVersion -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-avro</artifactId>
+			<version>2.9.0</version>
 		</dependency>
 
 		<dependency>
@@ -116,6 +133,7 @@
 			<version>5.1.6</version>
 		</dependency>
 
+		<!-- cache(キャシュー)用 -->
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
@@ -144,6 +162,7 @@
 			<!--<scope>test</scope> -->
 		</dependency>
 
+		<!-- datetime問題の解決 -->
 		<dependency>
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
@@ -183,7 +202,6 @@
 
 
 		<!-- mybatis pager -->
-
 		<dependency>
 			<groupId>com.github.pagehelper</groupId>
 			<artifactId>pagehelper</artifactId>
@@ -203,7 +221,7 @@
 		</dependency>
 
 
-		<!-- alipay -->
+		<!-- alipay??? -->
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
@@ -267,12 +285,7 @@
 			<artifactId>redisson</artifactId>
 			<version>2.9.0</version>
 		</dependency>
-		<!--com.fasterxml.jackson.dataformat.avro.PackageVersion -->
-		<dependency>
-			<groupId>com.fasterxml.jackson.dataformat</groupId>
-			<artifactId>jackson-dataformat-avro</artifactId>
-			<version>2.9.0</version>
-		</dependency>
+
 		<dependency>
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
@@ -283,9 +296,11 @@
 
 	<build>
 		<finalName>mmall</finalName>
-		<pluginManagement><!-- lock down plugins versions to avoid using Maven 
+		<pluginManagement>
+		<!-- lock down plugins versions to avoid using Maven 
 				defaults (may be moved to parent pom) -->
 			<plugins>
+				<!-- mybatis generator dao层，xml文件等的生成 -->
 				<plugin>
 					<groupId>org.mybatis.generator</groupId>
 					<artifactId>mybatis-generator-maven-plugin</artifactId>
