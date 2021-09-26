@@ -5,7 +5,7 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee 
 	http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1">
 
-  <!-- modify
+  <!-- modify 20210925
 	error: cvc-complex-type.3.2.2: Attribute 'version' is not allowed to appear in element 'web-app'.
     resolver:
         before:  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
