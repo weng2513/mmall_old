@@ -32,6 +32,8 @@ public class UserController {
     	
     	// messageの設定、取得の学び
     	LOGGER.debug("msg1: {}", msgSource.getMessage("msg1", null, Locale.CHINESE));
+    	LOGGER.debug("msg2: {}", msgSource.getMessage("msg2", new Object[]{"xxxxx"}, null));
+    	LOGGER.debug("msg3: {}", msgSource.getMessage("msg3", new Object[]{"yyyyy"}, null));
     	
         return iUserService.login(username, password);
     }

@@ -3,17 +3,24 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:tx="http://www.springframework.org/schema/tx"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
-  	 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
- 	 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+  	 	http://www.springframework.org/schema/context 
+  	 	http://www.springframework.org/schema/context/spring-context-4.2.xsd
+ 	 	http://www.springframework.org/schema/tx 
+ 	 	http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
 
-	<!-- 加载配数据源配置文件 db.properties -->
+	<!-- 加载配数据源配置文件 db.properties
+		 如果有多个properties,可以使用通配符：
+		 	<context:property-placeholder location="classpath*:/*.properties"/>
+		 	※前の「*」が省略できない
+	-->
 	<context:property-placeholder
 		location="classpath:config/db.properties" />
 	
 	<!-- 配置数据源 -->
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-		 <property name="driverClassName" value="${db.driverClassName}"/>
+		<property name="driverClassName" value="${db.driverClassName}"/>
         <property name="url" value="${db.url}"/>
         <property name="username" value="${db.username}"/>
         <property name="password" value="${db.password}"/>
@@ -51,14 +58,24 @@
 	</bean>
 	
 	<!-- 配置SqlSessionFacotory -->
+	<!-- 
+		1.データベースの設定
+		2.*Mapper.xmlファイルパスの設定
+		3.pojoクラスの紐付け
+		4.*Mapper.java(interface)パスの設定
+	 
+	-->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<!-- 配置数据源 -->
 		<property name="dataSource" ref="dataSource" />
 		
-		<!-- 如果不在这里配置/*Mapper.xml的路径的话，就要和/*Mapper.java写在一块了 -->
+		<!-- 如果不在这里配置/*Mapper.xml的路径的话，就要和/*Mapper.java(interface)写在一块了(default) -->
 		 <property name="mapperLocations" value="classpath:mappers/*Mapper.xml"></property>
 		
-		<!-- mybatis批量别名配置 -->
+		<!-- mybatis批量别名配置
+			对应我们的实体类所在的包，这个时候会自动取对应包中不包括包名的简单类名作为包括包名的别名。
+			多个package之间可以用逗号或者分号等来进行分隔（value的值一定要是包的全路径）
+		-->
 		<property name="typeAliasesPackage" value="com.weng.mmall.pojo"></property>
 		
 		<!-- 分页插件 -->
