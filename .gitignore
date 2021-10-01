@@ -44,3 +44,12 @@ gen/
 logs/
 log
 temp/
+Thumbs.db
+*.tmp
+*.diff
+*.cache
+*.patch
+
+#package file
+*.war
+*.ear
